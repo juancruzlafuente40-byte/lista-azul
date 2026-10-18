@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lista Azul 67</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+/* Layout concept: hero fijo (sticky) donde LISTA / AZUL abren sus letras con el scroll, boton que destapa
+   las propuestas en tres bloques con paneles de esquinas cortadas, como los rayos diagonales del arte original. */
+:root {
+  --ink: #030b26;
+  --navy: #071a52;
+  --royal: #1646d6;
+  --electric: #3d7bff;
+  --ice: #dce8ff;
+  --silver: #9fb2dc;
+  --white: #f6f9ff;
+  --display: 'Anton', 'Impact', 'Arial Narrow', sans-serif;
+  --body: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--ink); scroll-behavior: auto; }
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--ice);
+  font-family: var(--body);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--electric); color: #fff; }
+:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+/* ---------- HERO ---------- */
+.hero-track { position: relative; height: 210svh; }
+.stage {
+  position: sticky; top: 0;
+  height: 100svh; min-height: 520px;
+  overflow: clip;
+  display: grid; place-items: center;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 38%, rgba(61,123,255,.45), transparent 70%),
+    radial-gradient(ellipse 90% 60% at 12% 100%, rgba(22,70,214,.6), transparent 65%),
+    radial-gradient(ellipse 60% 50% at 100% 0%, rgba(22,70,214,.45), transparent 70%),
+    linear-gradient(180deg, #040d30, #081f66 55%, #030b26);
+}
+.bg67 {
+  position: absolute; left: 0; right: 0; top: 50%;
+  margin-top: calc(min(78vw, 78vh) * -.5);
+  text-align: center;
+  font-family: var(--display);
+  font-size: min(78vw, 78vh);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(120,165,255,.32);
+  pointer-events: none; user-select: none;
+  will-change: transform;
+}
+.sk { position: absolute; left: -20%; width: 140%; rotate: -16deg; pointer-events: none; }
+.sk i {
+  display: block; height: min(9vmin, 84px); border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(190,215,255,.9) 50%, transparent);
+  filter: blur(2px); opacity: .5; mix-blend-mode: screen;
+  will-change: transform;
+}
+.sk.a { top: 14%; }
+.sk.b { top: 62%; }
+.sk.c { top: 82%; }
+.sk.b i { height: min(4vmin, 36px); opacity: .6; }
+.sk.c i { height: min(14vmin, 120px); opacity: .28; }
+.vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 120% 90% at 50% 50%, transparent 55%, rgba(2,6,22,.65)); }
+
+.stage-inner {
+  position: relative; z-index: 2;
+  width: 100%; max-width: 1200px;
+  padding-left: var(--gutter-l); padding-right: var(--gutter-r);
+  padding-block: 24px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  gap: clamp(12px, 2.4vh, 24px);
+}
+.eyebrow {
+  margin: 0; display: flex; align-items: center; gap: 14px;
+  font-size: .78rem; font-weight: 800; letter-spacing: .28em; text-transform: uppercase; color: var(--silver);
+}
+.eyebrow::before, .eyebrow::after { content: ""; width: clamp(24px, 8vw, 70px); height: 1px; background: linear-gradient(90deg, transparent, var(--silver)); }
+.eyebrow::after { transform: scaleX(-1); }
+
+.title { margin: 0; font-weight: 400; }
+.line {
+  --ls: .02em;
+  display: block;
+  font-family: var(--display);
+  font-size: min(26vw, 27vh);
+  line-height: .92;
+  text-transform: uppercase;
+  letter-spacing: var(--ls);
+  padding-left: var(--ls);
+  color: var(--white);
+  text-shadow: 0 0 70px rgba(61,123,255,.55), 0 4px 0 rgba(3,11,38,.35);
+  white-space: nowrap;
+}
+.line.azul { color: #6d9bff; text-shadow: 0 0 80px rgba(61,123,255,.9); }
+.char { display: inline-block; will-change: transform; }
+
+.tagline { margin: 0; max-width: 44ch; color: var(--silver); font-size: clamp(.95rem, 2.2vw, 1.1rem); line-height: 1.55; text-wrap: balance; }
+
+.cta {
+  position: relative;
+  display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 18px;
+  width: min(100%, 430px);
+  padding: 16px 18px 16px 26px;
+  border: 1px solid rgba(190,215,255,.5);
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--royal), var(--electric));
+  color: #fff; font-family: var(--body); text-align: left; cursor: pointer;
+  box-shadow: 0 14px 40px -10px rgba(61,123,255,.8), inset 0 1px 0 rgba(255,255,255,.35);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.cta::after {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit;
+  border: 2px solid rgba(160,195,255,.7); opacity: 0;
+  animation: pulse 2.6s ease-out infinite; pointer-events: none;
+}
+@keyframes pulse { 0% { transform: scale(1); opacity: .7; } 70%, 100% { transform: scale(1.12, 1.45); opacity: 0; } }
+.cta:hover { transform: translateY(-3px); box-shadow: 0 20px 50px -10px rgba(61,123,255,.95), inset 0 1px 0 rgba(255,255,255,.4); }
+.cta:active { transform: translateY(0); }
+.cta-main { grid-column: 1; font-weight: 800; font-size: clamp(1rem, 2.6vw, 1.15rem); line-height: 1.2; }
+.cta-sub { grid-column: 1; font-size: .85rem; font-weight: 500; color: var(--ice); opacity: .85; }
+.cta-arrow { grid-column: 2; grid-row: 1 / span 2; width: 44px; height: 44px; border-radius: 50%; background: rgba(3,11,38,.35); display: grid; place-items: center; }
+.cta-arrow svg { width: 20px; height: 20px; }
+
+.scroll-cue {
+  position: absolute; z-index: 2; left: 0; right: 0; bottom: max(18px, env(safe-area-inset-bottom, 0px));
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font-size: .7rem; font-weight: 800; letter-spacing: .3em; text-transform: uppercase; color: var(--silver);
+  pointer-events: none;
+}
+.scroll-cue i { width: 1px; height: 34px; background: linear-gradient(var(--silver), transparent); transform-origin: top; animation: drip 1.8s ease-in-out infinite; }
+@keyframes drip { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+/* ---------- PROPUESTAS ---------- */
+.props {
+  position: relative; overflow: clip;
+  background: linear-gradient(180deg, var(--ink) 0, #061546 35%, #04103a 70%, var(--ink));
+  padding-block: clamp(72px, 11vw, 150px) clamp(40px, 6vw, 80px);
+}
+.wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+.kicker { margin: 0 0 14px; text-align: center; font-size: .78rem; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; color: var(--electric); text-wrap: balance; }
+.exp {
+  --ls: .08em;
+  margin: 0; text-align: center; font-weight: 400;
+  font-family: var(--display); text-transform: uppercase;
+  font-size: clamp(3.2rem, 13vw, 10rem); line-height: .95;
+  letter-spacing: var(--ls); padding-left: var(--ls);
+  color: var(--white); text-shadow: 0 0 60px rgba(61,123,255,.5);
+}
+.lead { margin: 18px auto 0; text-align: center; max-width: 40ch; color: var(--silver); font-size: 1.05rem; line-height: 1.55; }
+
+.group { position: relative; margin-top: clamp(80px, 12vw, 170px); }
+.ghost {
+  position: absolute; left: 0; right: 0; top: -.35em; z-index: 0;
+  font-family: var(--display); font-size: clamp(14rem, 46vw, 36rem); line-height: .8;
+  color: transparent; -webkit-text-stroke: 1px rgba(120,165,255,.18);
+  text-align: center; pointer-events: none; user-select: none;
+}
+.group:nth-of-type(odd) .ghost { text-align: left; }
+.group:nth-of-type(even) .ghost { text-align: right; }
+.group .exp, .group .kicker { position: relative; z-index: 1; }
+.group .sk { z-index: 0; }
+
+.panel {
+  --cut: clamp(18px, 3vw, 30px);
+  position: relative; z-index: 1;
+  margin-top: clamp(28px, 5vw, 56px);
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(160,195,255,.8), rgba(61,123,255,.12) 40%, rgba(160,195,255,.4));
+  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+}
+.panel-in {
+  background: linear-gradient(160deg, rgba(10,32,96,.96), rgba(5,18,60,.97));
+  padding: calc(var(--cut) + 6px) clamp(22px, 4.5vw, 48px) calc(var(--cut) + 6px);
+  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+}
+.list { list-style: none; margin: 0; padding: 0; }
+.list li {
+  position: relative; min-width: 0;
+  display: grid; grid-template-columns: clamp(44px, 8vw, 72px) minmax(0, 1fr);
+  align-items: baseline; gap: clamp(12px, 3vw, 28px);
+  padding-block: clamp(18px, 3vw, 28px);
+  transition: transform .3s ease;
+}
+.list li:hover { transform: translateX(6px); }
+.rule { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: linear-gradient(90deg, rgba(160,195,255,.55), rgba(160,195,255,.05)); transform-origin: left; }
+.list li:last-child .rule { display: none; }
+.n {
+  font-family: var(--display); font-size: clamp(2.4rem, 6vw, 3.6rem); line-height: 1;
+  color: transparent; -webkit-text-stroke: 1.5px var(--electric); transition: color .3s ease;
+}
+.list li:hover .n { color: var(--electric); }
+.t { margin: 0; min-width: 0; font-size: clamp(1.05rem, 2.3vw, 1.4rem); line-height: 1.42; font-weight: 500; color: var(--ice); text-wrap: pretty; overflow-wrap: anywhere; }
+.t strong { color: #fff; font-weight: 800; }
+
+/* ---------- CIERRE ---------- */
+.finale { position: relative; z-index: 1; margin-top: clamp(90px, 13vw, 190px); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.finale .exp { color: #6d9bff; text-shadow: 0 0 90px rgba(61,123,255,.9); }
+.finale p { margin: 0; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; font-size: .9rem; color: var(--ice); }
+.back {
+  margin-top: 6px; padding: 12px 22px; border-radius: 999px; cursor: pointer;
+  border: 1px solid rgba(190,215,255,.45); background: transparent; color: var(--ice);
+  font: 700 .9rem var(--body); transition: background .25s ease, color .25s ease;
+}
+.back:hover { background: var(--ice); color: var(--ink); }
+.foot { position: relative; z-index: 1; margin-top: clamp(60px, 9vw, 110px); text-align: center; color: var(--silver); font-size: .8rem; letter-spacing: .2em; text-transform: uppercase; opacity: .7; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cta::after, .scroll-cue i { animation: none; }
+  .list li { transition: none; }
+}
+[hidden] { display: none !important; }
+</style>
+
+</head>
+<body>
+<main>
+  <div class="hero-track" id="inicio">
+    <header class="stage hero">
+      <div class="bg67" aria-hidden="true">67</div>
+      <div class="sk a" aria-hidden="true"><i></i></div>
+      <div class="sk b" aria-hidden="true"><i></i></div>
+      <div class="sk c" aria-hidden="true"><i></i></div>
+      <div class="vignette" aria-hidden="true"></div>
+
+      <div class="stage-inner">
+        <p class="eyebrow">Elecciones estudiantiles</p>
+        <h1 class="title" aria-label="Lista Azul">
+          <span class="line line-1" data-split aria-hidden="true">Lista</span>
+          <span class="line line-2 azul" data-split aria-hidden="true">Azul</span>
+        </h1>
+        <p class="tagline">Eventos, un cole en mejores condiciones y más charlas que importan.</p>
+        <button class="cta" id="cta" type="button" aria-controls="propuestas" aria-expanded="false">
+          <span class="cta-main">¿Por qué nos deberías votar?</span>
+          <span class="cta-sub">Entrá y averiguá</span>
+          <span class="cta-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+          </span>
+        </button>
+      </div>
+
+      <div class="scroll-cue" aria-hidden="true"><span>Deslizá</span><i></i></div>
+    </header>
+  </div>
+
+  <section class="props" id="propuestas" hidden aria-labelledby="props-title">
+    <div class="wrap">
+      <p class="kicker">Lista Azul 67</p>
+      <h2 class="exp" id="props-title">Propuestas</h2>
+      <p class="lead">Tres frentes y quince ideas para el cole.</p>
+
+      <article class="group">
+        <div class="ghost" data-speed="1" aria-hidden="true">67</div>
+        <div class="sk a" aria-hidden="true" style="top:30%"><i></i></div>
+        <p class="kicker">Propuestas de eventos y entretenimiento</p>
+        <h2 class="exp">Eventos</h2>
+        <div class="panel"><div class="panel-in">
+          <ol class="list">
+            <li><span class="n">1</span><p class="t"><strong>Semana del estudiante:</strong> festejos y actividades.</p><i class="rule"></i></li>
+            <li><span class="n">2</span><p class="t"><strong>Acto/festejo de fin de año en todo el colegio:</strong> día festivo y menciones especiales a alumnos destacados.</p><i class="rule"></i></li>
+            <li><span class="n">3</span><p class="t"><strong>Torneo PIOX SJ y torneos intercolegiales:</strong> impulsar la participación del colegio.</p><i class="rule"></i></li>
+            <li><span class="n">4</span><p class="t"><strong>Festejo del día del profesor</strong> para nuestros profes.</p><i class="rule"></i></li>
+            <li><span class="n">5</span><p class="t"><strong>Semana de la dulzura:</strong> ¡¡Caja anónima para dejar un chocolate a tu personita especial!!</p><i class="rule"></i></li>
+          </ol>
+        </div></div>
+      </article>
+
+      <article class="group">
+        <div class="ghost" data-speed="1.4" aria-hidden="true">67</div>
+        <div class="sk b" aria-hidden="true" style="top:40%"><i></i></div>
+        <p class="kicker">Propuestas sobre la infraestructura del cole</p>
+        <h2 class="exp">El cole</h2>
+        <div class="panel"><div class="panel-in">
+          <ol class="list">
+            <li><span class="n">1</span><p class="t"><strong>Cambiar pizarrones de tiza</strong> a los de fibra.</p><i class="rule"></i></li>
+            <li><span class="n">2</span><p class="t"><strong>Arreglo de puertas</strong> y picaportes.</p><i class="rule"></i></li>
+            <li><span class="n">3</span><p class="t"><strong>Baños con pasador</strong> en sus puertas y jabón disponible.</p><i class="rule"></i></li>
+            <li><span class="n">4</span><p class="t"><strong>Incentivar a los alumnos</strong> al cuidado del mobiliario escolar.</p><i class="rule"></i></li>
+            <li><span class="n">5</span><p class="t"><strong>Limpiezas mensuales</strong> de bancos.</p><i class="rule"></i></li>
+          </ol>
+        </div></div>
+      </article>
+
+      <article class="group">
+        <div class="ghost" data-speed="0.8" aria-hidden="true">67</div>
+        <div class="sk a" aria-hidden="true" style="top:25%"><i></i></div>
+        <p class="kicker">Propuestas educativas y solidarias</p>
+        <h2 class="exp">Educación</h2>
+        <div class="panel"><div class="panel-in">
+          <ol class="list">
+            <li><span class="n">1</span><p class="t"><strong>Talleres para todo el colegio</strong> de RCP y ESI.</p><i class="rule"></i></li>
+            <li><span class="n">2</span><p class="t"><strong>Charlas de orientación para 3er año</strong> antes de elegir especialidad.</p><i class="rule"></i></li>
+            <li><span class="n">3</span><p class="t"><strong>Ferias solidarias</strong> de ropa.</p><i class="rule"></i></li>
+            <li><span class="n">4</span><p class="t"><strong>Más charlas</strong> para promover el respeto y rechazar el bullying.</p><i class="rule"></i></li>
+            <li><span class="n">5</span><p class="t"><strong>Olla popular.</strong></p><i class="rule"></i></li>
+          </ol>
+        </div></div>
+      </article>
+
+      <div class="finale">
+        <h2 class="exp" style="position:relative;z-index:1">Votá la<br>Lista Azul</h2>
+        <button class="back" id="back" type="button" style="position:relative;z-index:1">Volver arriba</button>
+      </div>
+      <p class="foot">Lista Azul</p>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasGsap = !!(window.gsap && window.ScrollTrigger);
+  var hasScrollTo = !!window.ScrollToPlugin;
+  var wide = window.innerWidth > 900;
+  var heroEnd = wide ? 0.36 : 0.2;
+  var headEnd = wide ? 0.16 : 0.07;
+
+  // Parte LISTA y AZUL en letras para animarlas una por una
+  document.querySelectorAll('[data-split]').forEach(function (el) {
+    var txt = el.textContent.trim();
+    el.textContent = '';
+    txt.split('').forEach(function (c) {
+      var s = document.createElement('span');
+      s.className = 'char';
+      s.textContent = c === ' ' ? ' ' : c;
+      el.appendChild(s);
+    });
+  });
+
+  var lines = Array.prototype.slice.call(document.querySelectorAll('.hero .line'));
+  var props = document.getElementById('propuestas');
+  var cta = document.getElementById('cta');
+  var back = document.getElementById('back');
+  var revealed = false;
+
+  if (hasGsap) {
+    gsap.registerPlugin(ScrollTrigger);
+    if (hasScrollTo) gsap.registerPlugin(ScrollToPlugin);
+  }
+
+  function heroAnim() {
+    // Entrada
+    gsap.from('.hero .char', { yPercent: 60, opacity: 0, duration: 1, ease: 'power4.out', stagger: 0.07, delay: 0.1 });
+    gsap.from('.eyebrow, .tagline, .cta', { y: 24, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.12, delay: 0.5 });
+
+    // Scroll: las letras se abren suavemente + parallax por capas
+    var tl = gsap.timeline({
+      defaults: { ease: 'none' },
+      scrollTrigger: { trigger: '.hero-track', start: 'top top', end: 'bottom bottom', scrub: 0.8 }
+    });
+    tl.fromTo(lines, { '--ls': '0.02em' }, { '--ls': heroEnd + 'em', duration: 1 }, 0)
+      .to('.title', { scale: 1.05, duration: 1 }, 0)
+      .to('.bg67', { yPercent: -22, scale: 1.4, opacity: 0.55, duration: 1 }, 0)
+      .to('.hero .sk.a i', { xPercent: -35, yPercent: -40, duration: 1 }, 0)
+      .to('.hero .sk.b i', { xPercent: 30, yPercent: 60, duration: 1 }, 0)
+      .to('.hero .sk.c i', { xPercent: -20, yPercent: -80, duration: 1 }, 0)
+      .to('.scroll-cue', { opacity: 0, y: 20, duration: 0.15 }, 0);
+  }
+
+  function propsAnim() {
+    // Titulos que abren sus letras al entrar
+    gsap.utils.toArray('.props .exp').forEach(function (h) {
+      gsap.fromTo(h, { '--ls': '0em' }, {
+        '--ls': headEnd + 'em', ease: 'none',
+        scrollTrigger: { trigger: h, start: 'top 92%', end: 'top 30%', scrub: 0.6 }
+      });
+    });
+    // Propuestas que suben en cascada y lineas que se dibujan
+    gsap.utils.toArray('.list').forEach(function (list) {
+      var st = { trigger: list, start: 'top 82%', once: true };
+      gsap.from(list.querySelectorAll('li'), { y: 48, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.12, clearProps: 'opacity,transform', scrollTrigger: st });
+      gsap.from(list.querySelectorAll('.rule'), { scaleX: 0, duration: 1.1, ease: 'power3.out', stagger: 0.12, delay: 0.2, scrollTrigger: st });
+    });
+    // Parallax de fondos
+    gsap.utils.toArray('.props [data-speed]').forEach(function (el) {
+      var s = parseFloat(el.getAttribute('data-speed')) || 1;
+      gsap.to(el, {
+        yPercent: s * -22, ease: 'none',
+        scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+    });
+    gsap.utils.toArray('.props .sk i').forEach(function (el, i) {
+      gsap.to(el, {
+        xPercent: i % 2 ? 28 : -28, ease: 'none',
+        scrollTrigger: { trigger: el.parentElement.parentElement, start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+    });
+  }
+
+  if (hasGsap && !reduce) {
+    heroAnim();
+  } else {
+    lines.forEach(function (l) { l.style.setProperty('--ls', (heroEnd * 0.6) + 'em'); });
+  }
+
+  function scrollToEl(target) {
+    if (hasGsap && hasScrollTo && !reduce) {
+      gsap.to(window, { duration: 1.6, scrollTo: { y: target, autoKill: true }, ease: 'power3.inOut' });
+    } else if (target === 0) {
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    } else {
+      target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }
+  }
+
+  cta.addEventListener('click', function () {
+    if (!revealed) {
+      revealed = true;
+      props.hidden = false;
+      cta.setAttribute('aria-expanded', 'true');
+      if (hasGsap && !reduce) propsAnim();
+      else document.querySelectorAll('.props .exp').forEach(function (h) { h.style.setProperty('--ls', headEnd + 'em'); });
+      if (hasGsap) ScrollTrigger.refresh();
+    }
+    scrollToEl(props);
+  });
+
+  back.addEventListener('click', function () { scrollToEl(0); });
+
+  if (document.fonts && document.fonts.ready && hasGsap) {
+    document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
+  }
+})();
+</script>
+</body>
+</html>
